@@ -1,6 +1,31 @@
 @extends('layoutFrontend.app')
 
 @section('content')
+<!-- Page Preloder -->
+<div id="preloder">
+		<div class="loader"></div>
+	</div>
+	
+	<!-- Header section start -->   
+	<header class="header-area">
+		<a href="home.html" class="logo-area">
+			<img src="img/logo.png" alt="">
+		</a>
+		<div class="nav-switch">
+			<i class="fa fa-bars"></i>
+		</div>
+		<div class="phone-number">+675 334 567 223</div>
+		<nav class="nav-menu">
+			<ul>
+				<li class="active"><a href="home.html">Home</a></li>
+				<li><a href="about.html">About us</a></li>
+				<li><a href="service.html">Services</a></li>
+				<li><a href="portfolio.html">Portfolio</a></li>
+				<li><a href="contact.html">Contact</a></li>
+			</ul>
+		</nav>
+	</header>
+	<!-- Header section end -->   
 
 <!-- Hero section start -->
 <section class="hero-section">
