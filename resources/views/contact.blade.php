@@ -1,4 +1,9 @@
 @extends('layoutFrontend.app')
+
+@section('title')
+<title>Contacto | Techmell Spa</title>
+@endsection
+
 @section('content')
 
 	@section('header')

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Arcade - Architecture</title>
+	@yield('title')
+	
 	<meta charset="UTF-8">
-	<meta name="description" content="Arcade - Architecture Template">
-	<meta name="keywords" content="arcade, architecture, onepage, creative, html">
+	<meta name="description" content="Techmell">
+	<meta name="keywords" content="techmell, led, pantallas, tecnologia, html">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!-- Favicon -->   
-	<link href="img/favicon.ico" rel="shortcut icon"/>
+	<link href="{{asset('img/favicon.ico')}}" rel="shortcut icon"/>
 
 	<!-- Google Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
