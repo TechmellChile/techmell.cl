@@ -43,7 +43,7 @@
 		<div class="nav-switch">
 			<i class="fa fa-bars"></i>
 		</div>
-		<div  class="phone-number">vetas@techmell.cl</div>
+		<div  class="phone-number">ventas@techmell.cl</div>
 		<nav class="nav-menu">
 			<ul>
 				@yield('header')			    
