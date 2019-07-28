@@ -1,5 +1,12 @@
 @extends('layoutFrontend.app')
-@section('content')<!-- Page Preloder -->
+
+
+@section('title')
+<title>Portafolio | Techmell Spa | Tecnología</title>
+@endsection
+
+
+@section('content')
 
     @section('header')
 			    <li><a href="{{url('/')}}">Inicio</a></li>

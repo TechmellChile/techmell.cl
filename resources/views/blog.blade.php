@@ -1,4 +1,10 @@
 @extends('layoutFrontend.app')
+
+
+@section('title')
+<title>Blog | Techmell Spa</title>
+@endsection
+
 @section('content')
 	
 	@section('header')
