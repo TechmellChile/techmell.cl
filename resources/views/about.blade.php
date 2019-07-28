@@ -1,34 +1,19 @@
 @extends('layoutFrontend.app')
 @section('content')
-<!-- Page Preloder -->
-<div id="preloder">
-		<div class="loader"></div>
-	</div>
+
 	
-	<!-- Header section start -->   
-	<header class="header-area">
-		<a href="home.html" class="logo-area">
-			<img src="img/logo.png" alt="">
-		</a>
-		<div class="nav-switch">
-			<i class="fa fa-bars"></i>
-		</div>
-		<div class="phone-number">+675 334 567 223</div>
-		<nav class="nav-menu">
-			<ul>
-				<li><a href="home.html">Home</a></li>
-				<li class="active"><a href="about.html">About us</a></li>
-				<li><a href="service.html">Services</a></li>
-				<li><a href="portfolio.html">Portfolio</a></li>
-				<li><a href="contact.html">Contact</a></li>
-			</ul>
-		</nav>
-	</header>
-	<!-- Header section end -->   
-<!-- Page header section start -->
-<section class="page-header-section set-bg" data-setbg="img/header-bg.jpg">
+	        @section('header')
+			    <li><a href="{{url('/')}}">Inicio</a></li>
+				<li class="active"><a href="{{url('about')}}">Nosotros</a></li>
+				<li><a href="{{url('service')}}">Servicios</a></li>
+				<li><a href="{{url('portafolio')}}">Portafolio</a></li>
+				<li><a href="{{url('blog')}}">Blog</a></li>
+				<li><a href="{{url('contact')}}">Contacto</a></li>
+            @endsection
+
+	<section class="page-header-section set-bg" data-setbg="img/header-bg.jpg">
 		<div class="container">
-			<h1 class="header-title">About us<span>.</span></h1>
+			<h1 class="header-title">Nosotros<span>.</span></h1>
 		</div>
 	</section>
 	<!-- Page header section end -->

@@ -29,9 +29,29 @@
 
 
 <body>
+
+<!-- Page Preloder -->
+<div id="preloder">
+		<div class="loader"></div>
+	</div>
+<!-- Header section start -->   
+<header class="header-area">
+		<a href="{{url('/')}}" class="logo-area">
+			<img src="{{asset('img/logo.png')}}" alt="" width="220px">
+		</a>
+		<div class="nav-switch">
+			<i class="fa fa-bars"></i>
+		</div>
+		<div  class="phone-number">vetas@techmell.cl</div>
+		<nav class="nav-menu">
+			<ul>
+				@yield('header')			    
+			</ul>
+		</nav>
+	</header>
+	<!-- Header section end -->   
 	
 @yield('content')
-	
 
 
 	<!-- Footer section start -->

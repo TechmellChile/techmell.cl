@@ -1,31 +1,18 @@
 @extends('layoutFrontend.app')
 
 @section('content')
-<!-- Page Preloder -->
-<div id="preloder">
-		<div class="loader"></div>
-	</div>
+
+
+	@section('header')
+		<li class="active"><a href="{{url('/')}}">Inicio</a></li>
+		<li><a href="{{url('about')}}">Nosotros</a></li>
+		<li><a href="{{url('service')}}">Servicios</a></li>
+		<li><a href="{{url('portafolio')}}">Portafolio</a></li>
+		<li><a href="{{url('blog')}}">Blog</a></li>
+		<li><a href="{{url('contact')}}">Contacto</a></li>
+	@endsection
 	
-	<!-- Header section start -->   
-	<header class="header-area">
-		<a href="home.html" class="logo-area">
-			<img src="img/logo.png" alt="">
-		</a>
-		<div class="nav-switch">
-			<i class="fa fa-bars"></i>
-		</div>
-		<div class="phone-number">+675 334 567 223</div>
-		<nav class="nav-menu">
-			<ul>
-				<li class="active"><a href="home.html">Home</a></li>
-				<li><a href="about.html">About us</a></li>
-				<li><a href="service.html">Services</a></li>
-				<li><a href="portfolio.html">Portfolio</a></li>
-				<li><a href="contact.html">Contact</a></li>
-			</ul>
-		</nav>
-	</header>
-	<!-- Header section end -->   
+	
 
 <!-- Hero section start -->
 <section class="hero-section">
@@ -43,7 +30,7 @@
 		</div>
 		<!-- hero slider area -->
 		<div class="hero-slider">
-			<div class="hero-slide-item set-bg" data-setbg="img/bg.jpg">
+			<div class="hero-slide-item set-bg" data-setbg="{{asset('img/bg.jpg')}}">
 				<div class="slide-inner">
 					<div class="slide-content">
 					<h2>Minimalistic <br>Architecture <br> and more</h2>
@@ -51,7 +38,7 @@
 					</div>	
 				</div>
 			</div>	
-			<div class="hero-slide-item set-bg" data-setbg="img/bg.jpg">
+			<div class="hero-slide-item set-bg" data-setbg="{{asset('img/bg.jpg')}}">
 				<div class="slide-inner">
 					<div class="slide-content">
 					<h2>Minimalistic <br>Architecture <br> and more</h2>
@@ -76,7 +63,7 @@
 					<a href="#" class="site-btn sb-dark">See Project</a>
 				</div>
 				<div class="col-lg-5 pt-4">
-					<img src="img/intro.png" alt="">
+					<img src="{{('img/intro.png')}}" alt="">
 				</div>
 			</div>
 		</div>
@@ -95,7 +82,7 @@
 					<div class="service-box">
 						<div class="sb-icon">
 							<div class="sb-img-icon">
-								<img src="img/icon/dark/1.png" alt="">
+								<img src="{{('img/icon/dark/1.png')}}" alt="">
 							</div>
 						</div>
 						<h3>Plans and Projects</h3>
@@ -107,7 +94,7 @@
 					<div class="service-box">
 						<div class="sb-icon">
 							<div class="sb-img-icon">
-								<img src="img/icon/dark/2.png" alt="">
+								<img src="{{asset('img/icon/dark/2.png')}}" alt="">
 							</div>
 						</div>
 						<h3>Conceptual Architecture</h3>
@@ -119,7 +106,7 @@
 					<div class="service-box">
 						<div class="sb-icon">
 							<div class="sb-img-icon">
-								<img src="img/icon/dark/3.png" alt="">
+								<img src="{{asset('img/icon/dark/3.png')}}" alt="">
 							</div>
 						</div>
 						<h3>Apartment Buildings</h3>
@@ -131,7 +118,7 @@
 					<div class="service-box">
 						<div class="sb-icon">
 							<div class="sb-img-icon">
-								<img src="img/icon/dark/4.png" alt="">
+								<img src="{{asset('img/icon/dark/4.png')}}" alt="">
 							</div>
 						</div>
 						<h3>Skyscrapers Buildings</h3>
@@ -143,7 +130,7 @@
 					<div class="service-box">
 						<div class="sb-icon">
 							<div class="sb-img-icon">
-								<img src="img/icon/dark/5.png" alt="">
+								<img src="{{asset('img/icon/dark/5.png')}}" alt="">
 							</div>
 						</div>
 						<h3>Documentation</h3>
@@ -155,7 +142,7 @@
 					<div class="service-box">
 						<div class="sb-icon">
 							<div class="sb-img-icon">
-								<img src="img/icon/dark/6.png" alt="">
+								<img src="{{asset('img/icon/dark/6.png')}}" alt="">
 							</div>
 						</div>
 						<h3>Restauration Projects</h3>
@@ -180,13 +167,13 @@
 					<p>Pellentesque lorem dolor, malesuada eget tortor vitae, tristique lacinia lectus. Pellentesque sed accumsan risus, id aliquam nulla. Integer lorem risus, feugiat at mauris malesuada, accumsan pellentesque ipsum. Nunc dapibus, libero ut pulvinar accumsan, tortor nisl iaculis ligula. Curabitur finibus dolor vel lectus pretium interdum a eget ante. </p>
 					<div class="cta-icons">
 						<div class="cta-img-icon">
-							<img src="img/icon/light/1.png" alt="">
+							<img src="{{asset('img/icon/light/1.png')}}" alt="">
 						</div>
 						<div class="cta-img-icon">
-							<img src="img/icon/light/2.png" alt="">
+							<img src="{{asset('img/icon/light/2.png')}}" alt="">
 						</div>
 						<div class="cta-img-icon">
-							<img src="img/icon/color/3.png" alt="">
+							<img src="{{asset('img/icon/color/3.png')}}" alt="">
 						</div>
 					</div>
 				</div>
@@ -295,27 +282,27 @@
 			<div id="client-carousel" class="client-slider">
 				<div class="single-brand">
 					<a href="#">
-						<img src="img/clients/1.png" alt="">
+						<img src="{{asset('img/clients/1.png')}}" alt="">
 					</a>
 				</div>
 				<div class="single-brand">
 					<a href="#">
-						<img src="img/clients/2.png" alt="">
+						<img src="{{asset('img/clients/2.png')}}" alt="">
 					</a>
 				</div>
 				<div class="single-brand">
 					<a href="#">
-						<img src="img/clients/3.png" alt="">
+						<img src="{{asset('img/clients/3.png')}}" alt="">
 					</a>
 				</div>
 				<div class="single-brand">
 					<a href="#">
-						<img src="img/clients/4.png" alt="">
+						<img src="{{asset('img/clients/4.png')}}" alt="">
 					</a>
 				</div>
 				<div class="single-brand">
 					<a href="#">
-						<img src="img/clients/5.png" alt="">
+						<img src="{{asset('img/clients/5.png')}}" alt="">
 					</a>
 				</div>
 			</div>

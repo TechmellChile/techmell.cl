@@ -36,7 +36,7 @@ h1 {
 }
 
 h1 span {
-	background: #baff00;
+	background: #0185ea;
 	padding: 0 10px;
 	color: #222222;
 	display: inline-block;
@@ -93,9 +93,9 @@ ol {
 }
 
 .sp-title span {
-	background: #baff00;
+	background: #0185ea;
 	padding: 0 10px;
-	color: #222222;
+	color: #ffffff;
 	display: inline-block;
 }
 
@@ -130,10 +130,11 @@ ol {
 .section-title h1,
 .section-title h2 {
 	display: inline-block;
-	background: #baff00;
+	background: #0185ea;
 	padding: 0 20px;
 	margin-bottom: 0;
 	font-size: 60px;
+	color: #fff;
 }
 
 .set-bg {
@@ -242,8 +243,8 @@ ol {
 }
 
 .site-btn.sb-solid-color {
-	background: #baff00;
-	border-color: #baff00;
+	background: #0185ea;
+	border-color: #0185ea;
 }
 
 .site-btn.sb-solid-color:after,
@@ -254,12 +255,12 @@ ol {
 .site-btn.sb-solid-dark {
 	background: #222;
 	border-color: #222;
-	color: #baff00;
+	color: #0185ea;
 }
 
 .site-btn.sb-solid-dark:after,
 .site-btn.sb-solid-dark:before {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .element {
@@ -284,7 +285,7 @@ ol {
 }
 
 .accordion-area .panel-header.active {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .accordion-area .panel-header.active .panel-link:after {
@@ -301,7 +302,7 @@ ol {
 	top: 0;
 	height: 100%;
 	width: 50px;
-	background: #baff00;
+	background: #0185ea;
 	border: none;
 	cursor: pointer;
 }
@@ -346,7 +347,7 @@ ol {
 }
 
 .tab-element .nav-tabs .nav-link.active {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .tab-element .nav-tabs .nav-link.active,
@@ -452,11 +453,12 @@ ol {
 	float: right;
 	display: inline-block;
 	padding: 5px 10px;
-	background: #baff00;
+	background: #0185ea;
 	font-weight: 700;
 	letter-spacing: 1px;
 	margin-top: 30px;
 	margin-right: 50px;
+	color: #fff ;
 }
 
 .nav-switch {
@@ -495,7 +497,7 @@ ol {
 	left: 50%;
 	margin-left: 1px;
 	top: 0;
-	background: #baff00;
+	background: #0185ea;
 	-webkit-transition: all 0.4s;
 	-o-transition: all 0.4s;
 	transition: all 0.4s;
@@ -545,7 +547,7 @@ ol {
 }
 
 .social-links a:hover {
-	color: #baff00;
+	color: #0185ea;
 }
 
 .hero-right-text {
@@ -598,7 +600,7 @@ ol {
 
 .hero-slider .owl-nav .owl-prev:hover,
 .hero-slider .owl-nav .owl-next:hover {
-	color: #baff00;
+	color: #0185ea;
 }
 
 .hero-slider .owl-nav .owl-prev i {
@@ -630,7 +632,7 @@ ol {
 
 .slide-num-holder span {
 	font-size: 48px;
-	color: #baff00;
+	color: #0185ea;
 	position: relative;
 	top: -10px;
 	right: -10px;
@@ -654,9 +656,9 @@ ol {
 	content: "";
 	height: calc(100% + 50px);
 	width: 330px;
-	border-top: 150px solid #baff00;
-	border-left: 150px solid #baff00;
-	border-bottom: 90px solid #baff00;
+	border-top: 150px solid #0185ea;
+	border-left: 150px solid #0185ea;
+	border-bottom: 90px solid #0185ea;
 	top: 0;
 	left: 0;
 	opacity: 0.73;
@@ -742,7 +744,7 @@ ol {
 }
 
 .service-box:hover .sb-icon {
-	background-color: #baff00;
+	background-color: #0185ea;
 }
 
 .service-box:hover .sb-icon .sb-img-icon {
@@ -755,7 +757,7 @@ ol {
 }
 
 .service-box:hover .readmore {
-	background-color: #baff00;
+	background-color: #0185ea;
 	padding: 2px 10px;
 }
 
@@ -866,7 +868,7 @@ ol {
 }
 
 .milestone:hover:after {
-	background: #baff00;
+	background: #0185ea;
 }
 
 /*----------------------------------------*/
@@ -892,7 +894,7 @@ ol {
 }
 
 .projects-filter-nav li.btn-active {
-	background: #baff00;
+	background: #0185ea;
 	color: #222222;
 }
 
@@ -935,7 +937,7 @@ ol {
 }
 
 .projects-slider .single-project .project-content p {
-	color: #baff00;
+	color: #0185ea;
 	font-weight: 500;
 	position: relative;
 	top: 40px;
@@ -948,7 +950,7 @@ ol {
 	position: absolute;
 	right: 50px;
 	bottom: 30px;
-	background: #baff00;
+	background: #0185ea;
 	font-size: 14px;
 	font-weight: 700;
 	color: #222;
@@ -1001,7 +1003,7 @@ ol {
 
 .projects-slider .owl-nav .owl-prev:hover,
 .projects-slider .owl-nav .owl-next:hover {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .projects-slider .owl-nav .owl-prev i {
@@ -1090,7 +1092,7 @@ ol {
 }
 
 .footer-item ul li a:hover {
-	background: #baff00;
+	background: #0185ea;
 }
 
 /*----------------------------------------*/
@@ -1108,7 +1110,7 @@ ol {
 
 .page-header-section .header-title span {
 	background: none;
-	color: #baff00;
+	color: #0185ea;
 }
 
 /*----------------------------------------*/
@@ -1151,7 +1153,7 @@ ol {
 }
 
 .testimonials-section .qut {
-	color: #baff00;
+	color: #0185ea;
 	font-size: 36px;
 	margin-bottom: 20px;
 }
@@ -1165,7 +1167,7 @@ ol {
 .ts-item h4 {
 	font-size: 15px;
 	font-weight: 400;
-	color: #baff00;
+	color: #0185ea;
 	margin-bottom: 0;
 }
 
@@ -1212,7 +1214,7 @@ ol {
 }
 
 .team-member:hover .member-info {
-	background: #baff00;
+	background: #0185ea;
 	-webkit-box-shadow: 0px 0px 0px rgba(114, 114, 114, 0.21);
 	        box-shadow: 0px 0px 0px rgba(114, 114, 114, 0.21);
 }
@@ -1273,7 +1275,7 @@ ol {
 }
 
 .service-slider .owl-dots .owl-dot.active {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .service-text h2 {
@@ -1338,7 +1340,7 @@ ol {
 }
 
 .solid-service-box:hover {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .solid-service-box:hover h2 {
@@ -1393,7 +1395,7 @@ ol {
 	font-weight: 700;
 	color: #222;
 	display: inline-block;
-	background: #baff00;
+	background: #0185ea;
 	padding: 4px 15px;
 	margin-bottom: 20px;
 }
@@ -1426,7 +1428,7 @@ ol {
 }
 
 .blog-post:hover .thumb:after {
-	background: #baff00;
+	background: #0185ea;
 }
 
 .pagination {
@@ -1444,7 +1446,7 @@ ol {
 
 .pagination a.active {
 	font-size: 48px;
-	color: #baff00;
+	color: #0185ea;
 }
 
 .search {
@@ -1511,7 +1513,7 @@ ol {
 }
 
 .widget-area ul li a:hover {
-	background: #baff00;
+	background: #0185ea;
 	color: #222;
 }
 
@@ -1587,7 +1589,7 @@ ol {
 	height: 100%;
 	left: 0;
 	top: 0;
-	background: #baff00;
+	background: #0185ea;
 	opacity: 0;
 	-webkit-transition: all 0.3s;
 	-o-transition: all 0.3s;
@@ -1826,9 +1828,9 @@ ol {
 		line-height: 60px;
 	}
 	.slide-content:after {
-		border-top: 100px solid #baff00;
-		border-left: 100px solid #baff00;
-		border-bottom: 60px solid #baff00;
+		border-top: 100px solid #0185ea;
+		border-left: 100px solid #0185ea;
+		border-bottom: 60px solid #0185ea;
 	}
 	.hero-slider .owl-nav {
 		left: 170px;
