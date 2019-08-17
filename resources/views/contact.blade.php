@@ -34,8 +34,8 @@
 			<div class="row">
 				<div class="col-lg-3 contact-info mb-5 mb-lg-0">
 					<p>Address: 1481 Creekside Lane Avila Beach, CA 93424 </p>
-					<p>Phone: +53 345 7953 32453</p>
-					<p>Email: yourmail@gmail.com</p>
+					<p>Phone: +56 9 45282137</p>
+					<p>Email: ventas@techmell.cl</p>
 					<div class="cf-social">
 						<a href="#"><i class="fa fa-google-plus"></i></a>
 						<a href="#"><i class="fa fa-pinterest"></i></a>
