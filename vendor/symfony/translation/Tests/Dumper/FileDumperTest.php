@@ -22,37 +22,14 @@ class FileDumperTest extends TestCase
         $tempDir = sys_get_temp_dir();
 
         $catalogue = new MessageCatalogue('en');
-        $catalogue->add(['foo' => 'bar']);
+        $catalogue->add(array('foo' => 'bar'));
 
         $dumper = new ConcreteFileDumper();
-        $dumper->dump($catalogue, ['path' => $tempDir]);
+        $dumper->dump($catalogue, array('path' => $tempDir));
 
         $this->assertFileExists($tempDir.'/messages.en.concrete');
 
         @unlink($tempDir.'/messages.en.concrete');
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testDumpBackupsFileIfExisting()
-    {
-        $tempDir = sys_get_temp_dir();
-        $file = $tempDir.'/messages.en.concrete';
-        $backupFile = $file.'~';
-
-        @touch($file);
-
-        $catalogue = new MessageCatalogue('en');
-        $catalogue->add(['foo' => 'bar']);
-
-        $dumper = new ConcreteFileDumper();
-        $dumper->dump($catalogue, ['path' => $tempDir]);
-
-        $this->assertFileExists($backupFile);
-
-        @unlink($file);
-        @unlink($backupFile);
     }
 
     public function testDumpCreatesNestedDirectoriesAndFile()
@@ -62,11 +39,11 @@ class FileDumperTest extends TestCase
         $file = $translationsDir.'/messages.en.concrete';
 
         $catalogue = new MessageCatalogue('en');
-        $catalogue->add(['foo' => 'bar']);
+        $catalogue->add(array('foo' => 'bar'));
 
         $dumper = new ConcreteFileDumper();
         $dumper->setRelativePathTemplate('test/translations/%domain%.%locale%.%extension%');
-        $dumper->dump($catalogue, ['path' => $tempDir]);
+        $dumper->dump($catalogue, array('path' => $tempDir));
 
         $this->assertFileExists($file);
 
@@ -77,7 +54,7 @@ class FileDumperTest extends TestCase
 
 class ConcreteFileDumper extends FileDumper
 {
-    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = [])
+    public function formatCatalogue(MessageCatalogue $messages, $domain, array $options = array())
     {
         return '';
     }

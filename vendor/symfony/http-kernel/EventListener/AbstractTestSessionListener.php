@@ -61,10 +61,12 @@ abstract class AbstractTestSessionListener implements EventSubscriberInterface
             return;
         }
 
-        if (!$session = $event->getRequest()->getSession()) {
+        $request = $event->getRequest();
+        if (!$request->hasSession()) {
             return;
         }
 
+        $session = $request->getSession();
         if ($wasStarted = $session->isStarted()) {
             $session->save();
         }
@@ -85,10 +87,10 @@ abstract class AbstractTestSessionListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [
-            KernelEvents::REQUEST => ['onKernelRequest', 192],
-            KernelEvents::RESPONSE => ['onKernelResponse', -128],
-        ];
+        return array(
+            KernelEvents::REQUEST => array('onKernelRequest', 192),
+            KernelEvents::RESPONSE => array('onKernelResponse', -128),
+        );
     }
 
     /**

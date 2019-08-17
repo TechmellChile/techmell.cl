@@ -26,5 +26,5 @@ interface ChoiceMessageFormatterInterface
      *
      * @return string
      */
-    public function choiceFormat($message, $number, $locale, array $parameters = []);
+    public function choiceFormat($message, $number, $locale, array $parameters = array());
 }

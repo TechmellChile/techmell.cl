@@ -123,13 +123,17 @@ class Repository implements CacheContract, ArrayAccess
      */
     public function getMultiple($keys, $default = null)
     {
-        $defaults = [];
-
-        foreach ($keys as $key) {
-            $defaults[$key] = $default;
+        if (is_null($default)) {
+            return $this->many($keys);
         }
 
-        return $this->many($defaults);
+        foreach ($keys as $key) {
+            if (! isset($default[$key])) {
+                $default[$key] = null;
+            }
+        }
+
+        return $this->many($default);
     }
 
     /**
@@ -178,13 +182,15 @@ class Repository implements CacheContract, ArrayAccess
      *
      * @param  string  $key
      * @param  mixed   $value
-     * @param  \DateTimeInterface|\DateInterval|float|int  $minutes
+     * @param  \DateTimeInterface|\DateInterval|float|int|null  $minutes
      * @return void
      */
     public function put($key, $value, $minutes = null)
     {
         if (is_array($key)) {
-            return $this->putMany($key, $value);
+            $this->putMany($key, $value);
+
+            return;
         }
 
         if (! is_null($minutes = $this->getMinutes($minutes))) {
@@ -225,7 +231,7 @@ class Repository implements CacheContract, ArrayAccess
      */
     public function setMultiple($values, $ttl = null)
     {
-        $this->putMany(is_array($values) ? $values : iterator_to_array($values), $ttl);
+        $this->putMany($values, $ttl);
     }
 
     /**
@@ -415,7 +421,7 @@ class Repository implements CacheContract, ArrayAccess
             throw new BadMethodCallException('This cache store does not support tagging.');
         }
 
-        $cache = $this->store->tags($names);
+        $cache = $this->store->tags(is_array($names) ? $names : func_get_args());
 
         if (! is_null($this->events)) {
             $cache->setEventDispatcher($this->events);
@@ -548,7 +554,7 @@ class Repository implements CacheContract, ArrayAccess
         $duration = $this->parseDateInterval($duration);
 
         if ($duration instanceof DateTimeInterface) {
-            $duration = Carbon::now()->diffInRealSeconds($duration, false) / 60;
+            $duration = Carbon::now()->diffInSeconds(Carbon::createFromTimestamp($duration->getTimestamp()), false) / 60;
         }
 
         return (int) ($duration * 60) > 0 ? $duration : null;
