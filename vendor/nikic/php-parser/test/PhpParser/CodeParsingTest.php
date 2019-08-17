@@ -5,6 +5,8 @@ namespace PhpParser;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Stmt;
 
+require_once __DIR__ . '/CodeTestAbstract.php';
+
 class CodeParsingTest extends CodeTestAbstract
 {
     /**
@@ -50,8 +52,7 @@ class CodeParsingTest extends CodeTestAbstract
         ];
     }
 
-    // Must be public for updateTests.php
-    public function getParseOutput(Parser $parser, $code, array $modes) {
+    private function getParseOutput(Parser $parser, $code, array $modes) {
         $dumpPositions = isset($modes['positions']);
 
         $errors = new ErrorHandler\Collecting;
@@ -77,9 +78,9 @@ class CodeParsingTest extends CodeTestAbstract
     private function formatErrorMessage(Error $e, $code) {
         if ($e->hasColumnInfo()) {
             return $e->getMessageWithColumnInfo($code);
+        } else {
+            return $e->getMessage();
         }
-
-        return $e->getMessage();
     }
 
     private function checkAttributes($stmts) {

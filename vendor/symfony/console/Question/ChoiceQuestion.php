@@ -30,7 +30,7 @@ class ChoiceQuestion extends Question
      * @param array  $choices  The list of available choices
      * @param mixed  $default  The default answer to return
      */
-    public function __construct($question, array $choices, $default = null)
+    public function __construct(string $question, array $choices, $default = null)
     {
         if (!$choices) {
             throw new \LogicException('Choice question must have at least 1 choice available.');
@@ -121,12 +121,7 @@ class ChoiceQuestion extends Question
         return $this;
     }
 
-    /**
-     * Returns the default answer validator.
-     *
-     * @return callable
-     */
-    private function getDefaultValidator()
+    private function getDefaultValidator(): callable
     {
         $choices = $this->choices;
         $errorMessage = $this->errorMessage;
@@ -134,20 +129,22 @@ class ChoiceQuestion extends Question
         $isAssoc = $this->isAssoc($choices);
 
         return function ($selected) use ($choices, $errorMessage, $multiselect, $isAssoc) {
+            // Collapse all spaces.
+            $selectedChoices = str_replace(' ', '', $selected);
+
             if ($multiselect) {
                 // Check for a separated comma values
-                if (!preg_match('/^[^,]+(?:,[^,]+)*$/', $selected, $matches)) {
+                if (!preg_match('/^[^,]+(?:,[^,]+)*$/', $selectedChoices, $matches)) {
                     throw new InvalidArgumentException(sprintf($errorMessage, $selected));
                 }
-
-                $selectedChoices = array_map('trim', explode(',', $selected));
+                $selectedChoices = explode(',', $selectedChoices);
             } else {
-                $selectedChoices = [trim($selected)];
+                $selectedChoices = array($selected);
             }
 
-            $multiselectChoices = [];
+            $multiselectChoices = array();
             foreach ($selectedChoices as $value) {
-                $results = [];
+                $results = array();
                 foreach ($choices as $key => $choice) {
                     if ($choice === $value) {
                         $results[] = $key;

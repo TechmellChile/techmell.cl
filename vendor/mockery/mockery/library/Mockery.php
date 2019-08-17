@@ -26,7 +26,6 @@ use Mockery\Generator\StringManipulationGenerator;
 use Mockery\Loader\EvalLoader;
 use Mockery\Loader\Loader;
 use Mockery\Matcher\MatcherAbstract;
-use Mockery\ClosureWrapper;
 
 class Mockery
 {
@@ -108,7 +107,7 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock().
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -121,23 +120,19 @@ class Mockery
      * Static and semantic shortcut for getting a mock from the container
      * and applying the spy's expected behavior into it.
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
     public static function spy(...$args)
     {
-        if (count($args) && $args[0] instanceof \Closure) {
-            $args[0] = new ClosureWrapper($args[0]);
-        }
-
         return call_user_func_array(array(self::getContainer(), 'mock'), $args)->shouldIgnoreMissing();
     }
 
     /**
      * Static and Semantic shortcut to \Mockery\Container::mock().
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */
@@ -149,7 +144,7 @@ class Mockery
     /**
      * Static shortcut to \Mockery\Container::mock(), first argument names the mock.
      *
-     * @param mixed ...$args
+     * @param array ...$args
      *
      * @return \Mockery\MockInterface
      */

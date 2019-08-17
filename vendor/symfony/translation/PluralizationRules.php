@@ -18,7 +18,7 @@ namespace Symfony\Component\Translation;
  */
 class PluralizationRules
 {
-    private static $rules = [];
+    private static $rules = array();
 
     /**
      * Returns the plural position to use for the given locale and number.

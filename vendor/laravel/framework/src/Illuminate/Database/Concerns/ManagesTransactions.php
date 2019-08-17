@@ -26,7 +26,7 @@ trait ManagesTransactions
             // catch any exception we can rollback this transaction so that none of this
             // gets actually persisted to a database or stored in a permanent fashion.
             try {
-                return tap($callback($this), function ($result) {
+                return tap($callback($this), function () {
                     $this->commit();
                 });
             }
@@ -129,7 +129,7 @@ trait ManagesTransactions
     /**
      * Handle an exception from a transaction beginning.
      *
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @return void
      *
      * @throws \Exception

@@ -2,7 +2,9 @@
 
 namespace PhpParser;
 
-class ErrorTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class ErrorTest extends TestCase
 {
     public function testConstruct() {
         $attributes = [
@@ -92,9 +94,11 @@ class ErrorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Invalid position information
+     */
     public function testInvalidPosInfo() {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Invalid position information');
         $error = new Error('Some error', [
             'startFilePos' => 10,
             'endFilePos' => 11,

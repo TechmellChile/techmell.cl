@@ -54,11 +54,13 @@ class ExceptionListenerTest extends TestCase
         $this->iniSet('error_log', file_exists('/dev/null') ? '/dev/null' : 'nul');
 
         $l = new ExceptionListener('foo');
+        $l->logKernelException($event);
         $l->onKernelException($event);
 
         $this->assertEquals(new Response('foo'), $event->getResponse());
 
         try {
+            $l->logKernelException($event2);
             $l->onKernelException($event2);
             $this->fail('RuntimeException expected');
         } catch (\RuntimeException $e) {
@@ -75,11 +77,13 @@ class ExceptionListenerTest extends TestCase
         $logger = new TestLogger();
 
         $l = new ExceptionListener('foo', $logger);
+        $l->logKernelException($event);
         $l->onKernelException($event);
 
         $this->assertEquals(new Response('foo'), $event->getResponse());
 
         try {
+            $l->logKernelException($event2);
             $l->onKernelException($event2);
             $this->fail('RuntimeException expected');
         } catch (\RuntimeException $e) {
@@ -94,7 +98,7 @@ class ExceptionListenerTest extends TestCase
     public function provider()
     {
         if (!class_exists('Symfony\Component\HttpFoundation\Request')) {
-            return [[null, null]];
+            return array(array(null, null));
         }
 
         $request = new Request();
@@ -102,9 +106,9 @@ class ExceptionListenerTest extends TestCase
         $event = new GetResponseForExceptionEvent(new TestKernel(), $request, HttpKernelInterface::MASTER_REQUEST, $exception);
         $event2 = new GetResponseForExceptionEvent(new TestKernelThatThrowsException(), $request, HttpKernelInterface::MASTER_REQUEST, $exception);
 
-        return [
-            [$event, $event2],
-        ];
+        return array(
+            array($event, $event2),
+        );
     }
 
     public function testSubRequestFormat()
@@ -112,9 +116,9 @@ class ExceptionListenerTest extends TestCase
         $listener = new ExceptionListener('foo', $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock());
 
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock();
-        $kernel->expects($this->once())->method('handle')->willReturnCallback(function (Request $request) {
+        $kernel->expects($this->once())->method('handle')->will($this->returnCallback(function (Request $request) {
             return new Response($request->getRequestFormat());
-        });
+        }));
 
         $request = Request::create('/');
         $request->setRequestFormat('xml');
@@ -130,9 +134,9 @@ class ExceptionListenerTest extends TestCase
     {
         $dispatcher = new EventDispatcher();
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock();
-        $kernel->expects($this->once())->method('handle')->willReturnCallback(function (Request $request) {
+        $kernel->expects($this->once())->method('handle')->will($this->returnCallback(function (Request $request) {
             return new Response($request->getRequestFormat());
-        });
+        }));
 
         $listener = new ExceptionListener('foo', $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock(), true);
 
@@ -142,7 +146,7 @@ class ExceptionListenerTest extends TestCase
         $event = new GetResponseForExceptionEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, new \Exception('foo'));
         $dispatcher->dispatch(KernelEvents::EXCEPTION, $event);
 
-        $response = new Response('', 200, ['content-security-policy' => "style-src 'self'"]);
+        $response = new Response('', 200, array('content-security-policy' => "style-src 'self'"));
         $this->assertTrue($response->headers->has('content-security-policy'));
 
         $event = new FilterResponseEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST, $response);

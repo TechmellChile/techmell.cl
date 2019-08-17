@@ -13,6 +13,7 @@ namespace Symfony\Component\HttpKernel\DataCollector;
 
 use Symfony\Component\Debug\Exception\SilencedErrorContext;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
@@ -25,18 +26,17 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
 {
     private $logger;
     private $containerPathPrefix;
+    private $currentRequest;
+    private $requestStack;
 
-    public function __construct($logger = null, $containerPathPrefix = null)
+    public function __construct($logger = null, string $containerPathPrefix = null, RequestStack $requestStack = null)
     {
         if (null !== $logger && $logger instanceof DebugLoggerInterface) {
-            if (!method_exists($logger, 'clear')) {
-                @trigger_error(sprintf('Implementing "%s" without the "clear()" method is deprecated since Symfony 3.4 and will be unsupported in 4.0 for class "%s".', DebugLoggerInterface::class, \get_class($logger)), E_USER_DEPRECATED);
-            }
-
             $this->logger = $logger;
         }
 
         $this->containerPathPrefix = $containerPathPrefix;
+        $this->requestStack = $requestStack;
     }
 
     /**
@@ -44,7 +44,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
      */
     public function collect(Request $request, Response $response, \Exception $exception = null)
     {
-        // everything is done as late as possible
+        $this->currentRequest = $this->requestStack && $this->requestStack->getMasterRequest() !== $request ? $request : null;
     }
 
     /**
@@ -52,10 +52,10 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
      */
     public function reset()
     {
-        if ($this->logger && method_exists($this->logger, 'clear')) {
+        if ($this->logger instanceof DebugLoggerInterface) {
             $this->logger->clear();
         }
-        $this->data = [];
+        $this->data = array();
     }
 
     /**
@@ -67,9 +67,10 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             $containerDeprecationLogs = $this->getContainerDeprecationLogs();
             $this->data = $this->computeErrorsCount($containerDeprecationLogs);
             $this->data['compiler_logs'] = $this->getContainerCompilerLogs();
-            $this->data['logs'] = $this->sanitizeLogs(array_merge($this->logger->getLogs(), $containerDeprecationLogs));
+            $this->data['logs'] = $this->sanitizeLogs(array_merge($this->logger->getLogs($this->currentRequest), $containerDeprecationLogs));
             $this->data = $this->cloneVar($this->data);
         }
+        $this->currentRequest = null;
     }
 
     /**
@@ -79,12 +80,12 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
      */
     public function getLogs()
     {
-        return isset($this->data['logs']) ? $this->data['logs'] : [];
+        return isset($this->data['logs']) ? $this->data['logs'] : array();
     }
 
     public function getPriorities()
     {
-        return isset($this->data['priorities']) ? $this->data['priorities'] : [];
+        return isset($this->data['priorities']) ? $this->data['priorities'] : array();
     }
 
     public function countErrors()
@@ -109,7 +110,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
 
     public function getCompilerLogs()
     {
-        return isset($this->data['compiler_logs']) ? $this->data['compiler_logs'] : [];
+        return isset($this->data['compiler_logs']) ? $this->data['compiler_logs'] : array();
     }
 
     /**
@@ -123,17 +124,13 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
     private function getContainerDeprecationLogs()
     {
         if (null === $this->containerPathPrefix || !file_exists($file = $this->containerPathPrefix.'Deprecations.log')) {
-            return [];
-        }
-
-        if ('' === $logContent = trim(file_get_contents($file))) {
-            return [];
+            return array();
         }
 
         $bootTime = filemtime($file);
-        $logs = [];
-        foreach (unserialize($logContent) as $log) {
-            $log['context'] = ['exception' => new SilencedErrorContext($log['type'], $log['file'], $log['line'], $log['trace'], $log['count'])];
+        $logs = array();
+        foreach (unserialize(file_get_contents($file)) as $log) {
+            $log['context'] = array('exception' => new SilencedErrorContext($log['type'], $log['file'], $log['line'], $log['trace'], $log['count']));
             $log['timestamp'] = $bootTime;
             $log['priority'] = 100;
             $log['priorityName'] = 'DEBUG';
@@ -149,17 +146,17 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
     private function getContainerCompilerLogs()
     {
         if (null === $this->containerPathPrefix || !file_exists($file = $this->containerPathPrefix.'Compiler.log')) {
-            return [];
+            return array();
         }
 
-        $logs = [];
+        $logs = array();
         foreach (file($file, FILE_IGNORE_NEW_LINES) as $log) {
             $log = explode(': ', $log, 2);
             if (!isset($log[1]) || !preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)++$/', $log[0])) {
-                $log = ['Unknown Compiler Pass', implode(': ', $log)];
+                $log = array('Unknown Compiler Pass', implode(': ', $log));
             }
 
-            $logs[$log[0]][] = ['message' => $log[1]];
+            $logs[$log[0]][] = array('message' => $log[1]);
         }
 
         return $logs;
@@ -167,8 +164,8 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
 
     private function sanitizeLogs($logs)
     {
-        $sanitizedLogs = [];
-        $silencedLogs = [];
+        $sanitizedLogs = array();
+        $silencedLogs = array();
 
         foreach ($logs as $log) {
             if (!$this->isSilencedOrDeprecationErrorLog($log)) {
@@ -187,10 +184,10 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
                 $silencedLogs[$h] = true;
 
                 if (!isset($sanitizedLogs[$message])) {
-                    $sanitizedLogs[$message] = $log + [
+                    $sanitizedLogs[$message] = $log + array(
                         'errorCount' => 0,
                         'scream' => true,
-                    ];
+                    );
                 }
                 $sanitizedLogs[$message]['errorCount'] += $exception->count;
 
@@ -202,10 +199,10 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             if (isset($sanitizedLogs[$errorId])) {
                 ++$sanitizedLogs[$errorId]['errorCount'];
             } else {
-                $log += [
+                $log += array(
                     'errorCount' => 1,
                     'scream' => false,
-                ];
+                );
 
                 $sanitizedLogs[$errorId] = $log;
             }
@@ -226,7 +223,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
             return true;
         }
 
-        if ($exception instanceof \ErrorException && \in_array($exception->getSeverity(), [E_DEPRECATED, E_USER_DEPRECATED], true)) {
+        if ($exception instanceof \ErrorException && \in_array($exception->getSeverity(), array(E_DEPRECATED, E_USER_DEPRECATED), true)) {
             return true;
         }
 
@@ -235,23 +232,23 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
 
     private function computeErrorsCount(array $containerDeprecationLogs)
     {
-        $silencedLogs = [];
-        $count = [
-            'error_count' => $this->logger->countErrors(),
+        $silencedLogs = array();
+        $count = array(
+            'error_count' => $this->logger->countErrors($this->currentRequest),
             'deprecation_count' => 0,
             'warning_count' => 0,
             'scream_count' => 0,
-            'priorities' => [],
-        ];
+            'priorities' => array(),
+        );
 
-        foreach ($this->logger->getLogs() as $log) {
+        foreach ($this->logger->getLogs($this->currentRequest) as $log) {
             if (isset($count['priorities'][$log['priority']])) {
                 ++$count['priorities'][$log['priority']]['count'];
             } else {
-                $count['priorities'][$log['priority']] = [
+                $count['priorities'][$log['priority']] = array(
                     'count' => 1,
                     'name' => $log['priorityName'],
-                ];
+                );
             }
             if ('WARNING' === $log['priorityName']) {
                 ++$count['warning_count'];

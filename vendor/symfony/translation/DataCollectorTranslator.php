@@ -11,13 +11,12 @@
 
 namespace Symfony\Component\Translation;
 
-use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
 /**
  * @author Abdellatif Ait boudad <a.aitboudad@gmail.com>
  */
-class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInterface, WarmableInterface
+class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInterface
 {
     const MESSAGE_DEFINED = 0;
     const MESSAGE_MISSING = 1;
@@ -28,7 +27,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
      */
     private $translator;
 
-    private $messages = [];
+    private $messages = array();
 
     /**
      * @param TranslatorInterface $translator The translator must implement TranslatorBagInterface
@@ -45,7 +44,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
     /**
      * {@inheritdoc}
      */
-    public function trans($id, array $parameters = [], $domain = null, $locale = null)
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
         $trans = $this->translator->trans($id, $parameters, $domain, $locale);
         $this->collectMessage($locale, $domain, $id, $trans, $parameters);
@@ -56,7 +55,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
     /**
      * {@inheritdoc}
      */
-    public function transChoice($id, $number, array $parameters = [], $domain = null, $locale = null)
+    public function transChoice($id, $number, array $parameters = array(), $domain = null, $locale = null)
     {
         $trans = $this->translator->transChoice($id, $number, $parameters, $domain, $locale);
         $this->collectMessage($locale, $domain, $id, $trans, $parameters, $number);
@@ -89,19 +88,9 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function warmUp($cacheDir)
-    {
-        if ($this->translator instanceof WarmableInterface) {
-            $this->translator->warmUp($cacheDir);
-        }
-    }
-
-    /**
      * Gets the fallback locales.
      *
-     * @return array The fallback locales
+     * @return array $locales The fallback locales
      */
     public function getFallbackLocales()
     {
@@ -109,7 +98,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
             return $this->translator->getFallbackLocales();
         }
 
-        return [];
+        return array();
     }
 
     /**
@@ -117,7 +106,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
      */
     public function __call($method, $args)
     {
-        return \call_user_func_array([$this->translator, $method], $args);
+        return \call_user_func_array(array($this->translator, $method), $args);
     }
 
     /**
@@ -136,7 +125,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
      * @param array|null  $parameters
      * @param int|null    $number
      */
-    private function collectMessage($locale, $domain, $id, $translation, $parameters = [], $number = null)
+    private function collectMessage($locale, $domain, $id, $translation, $parameters = array(), $number = null)
     {
         if (null === $domain) {
             $domain = 'messages';
@@ -163,7 +152,7 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
             $state = self::MESSAGE_MISSING;
         }
 
-        $this->messages[] = [
+        $this->messages[] = array(
             'locale' => $locale,
             'domain' => $domain,
             'id' => $id,
@@ -171,6 +160,6 @@ class DataCollectorTranslator implements TranslatorInterface, TranslatorBagInter
             'parameters' => $parameters,
             'transChoiceNumber' => $number,
             'state' => $state,
-        ];
+        );
     }
 }

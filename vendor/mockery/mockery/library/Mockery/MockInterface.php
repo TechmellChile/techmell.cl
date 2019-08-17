@@ -46,7 +46,7 @@ interface MockInterface
     /**
      * Set expected method calls
      *
-     * @param mixed ...$methodNames one or many methods that are expected to be called in this mock
+     * @param array ...$methodNames one or many methods that are expected to be called in this mock
      *
      * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
@@ -55,7 +55,7 @@ interface MockInterface
     /**
      * Shortcut method for setting an expectation that a method should not be called.
      *
-     * @param mixed ...$methodNames one or many methods that are expected not to be called in this mock
+     * @param array ...$methodNames one or many methods that are expected not to be called in this mock
      * @return \Mockery\ExpectationInterface|\Mockery\Expectation|\Mockery\HigherOrderMessage
      */
     public function shouldNotReceive(...$methodNames);
@@ -99,12 +99,7 @@ interface MockInterface
      * @param null $args
      * @return mixed
      */
-    public function shouldHaveReceived($method = null, $args = null);
-
-    /**
-     * @return mixed
-     */
-    public function shouldHaveBeenCalled();
+    public function shouldHaveReceived($method, $args = null);
 
     /**
      * @param null|string $method
@@ -113,11 +108,6 @@ interface MockInterface
      */
     public function shouldNotHaveReceived($method, $args = null);
 
-    /**
-     * @param array $args (optional)
-     * @return mixed
-     */
-    public function shouldNotHaveBeenCalled(array $args = null);
 
     /**
      * In the event shouldReceive() accepting an array of methods/returns

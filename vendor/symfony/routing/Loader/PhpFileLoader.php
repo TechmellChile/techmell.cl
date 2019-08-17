@@ -46,9 +46,9 @@ class PhpFileLoader extends FileLoader
 
         $result = $load($path);
 
-        if ($result instanceof \Closure) {
+        if (\is_object($result) && \is_callable($result)) {
             $collection = new RouteCollection();
-            $result(new RoutingConfigurator($collection, $this, $path, $file));
+            $result(new RoutingConfigurator($collection, $this, $path, $file), $this);
         } else {
             $collection = $result;
         }

@@ -31,7 +31,7 @@ class MessageFormatter implements MessageFormatterInterface, ChoiceMessageFormat
     /**
      * {@inheritdoc}
      */
-    public function format($message, $locale, array $parameters = [])
+    public function format($message, $locale, array $parameters = array())
     {
         return strtr($message, $parameters);
     }
@@ -39,9 +39,9 @@ class MessageFormatter implements MessageFormatterInterface, ChoiceMessageFormat
     /**
      * {@inheritdoc}
      */
-    public function choiceFormat($message, $number, $locale, array $parameters = [])
+    public function choiceFormat($message, $number, $locale, array $parameters = array())
     {
-        $parameters = array_merge(['%count%' => $number], $parameters);
+        $parameters = array_merge(array('%count%' => $number), $parameters);
 
         return $this->format($this->selector->choose($message, (int) $number, $locale), $locale, $parameters);
     }

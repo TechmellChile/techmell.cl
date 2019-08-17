@@ -49,15 +49,15 @@ class MessageSelector
      */
     public function choose($message, $number, $locale)
     {
-        $parts = [];
+        $parts = array();
         if (preg_match('/^\|++$/', $message)) {
             $parts = explode('|', $message);
         } elseif (preg_match_all('/(?:\|\||[^\|])++/', $message, $matches)) {
             $parts = $matches[0];
         }
 
-        $explicitRules = [];
-        $standardRules = [];
+        $explicitRules = array();
+        $standardRules = array();
         foreach ($parts as $part) {
             $part = trim(str_replace('||', '|', $part));
 
