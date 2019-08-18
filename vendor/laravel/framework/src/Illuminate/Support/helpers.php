@@ -443,7 +443,7 @@ if (! function_exists('data_get')) {
      * Get an item from an array or object using "dot" notation.
      *
      * @param  mixed   $target
-     * @param  string|array  $key
+     * @param  string|array|int  $key
      * @param  mixed   $default
      * @return mixed
      */
@@ -463,7 +463,11 @@ if (! function_exists('data_get')) {
                     return value($default);
                 }
 
-                $result = Arr::pluck($target, $key);
+                $result = [];
+
+                foreach ($target as $item) {
+                    $result[] = data_get($item, $key);
+                }
 
                 return in_array('*', $key) ? Arr::collapse($result) : $result;
             }
@@ -1034,6 +1038,7 @@ if (! function_exists('throw_if')) {
      * @param  \Throwable|string  $exception
      * @param  array  ...$parameters
      * @return mixed
+     *
      * @throws \Throwable
      */
     function throw_if($condition, $exception, ...$parameters)
