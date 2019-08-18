@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-/**
- * @mixin \Illuminate\Database\Eloquent\Builder
- */
 class MorphTo extends BelongsTo
 {
     /**
@@ -82,16 +79,6 @@ class MorphTo extends BelongsTo
                 $this->dictionary[$model->{$this->morphType}][$model->{$this->foreignKey}][] = $model;
             }
         }
-    }
-
-    /**
-     * Get the results of the relationship.
-     *
-     * @return mixed
-     */
-    public function getResults()
-    {
-        return $this->ownerKey ? parent::getResults() : null;
     }
 
     /**
@@ -224,6 +211,18 @@ class MorphTo extends BelongsTo
     }
 
     /**
+     * Touch all of the related models for the relationship.
+     *
+     * @return void
+     */
+    public function touch()
+    {
+        if (! is_null($this->child->{$this->foreignKey})) {
+            parent::touch();
+        }
+    }
+
+    /**
      * Get the foreign key "type" name.
      *
      * @return string
@@ -268,7 +267,13 @@ class MorphTo extends BelongsTo
     public function __call($method, $parameters)
     {
         try {
-            return parent::__call($method, $parameters);
+            $result = parent::__call($method, $parameters);
+
+            if (in_array($method, ['select', 'selectRaw', 'selectSub', 'addSelect', 'withoutGlobalScopes'])) {
+                $this->macroBuffer[] = compact('method', 'parameters');
+            }
+
+            return $result;
         }
 
         // If we tried to call a method that does not exist on the parent Builder instance,

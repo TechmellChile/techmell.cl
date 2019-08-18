@@ -224,7 +224,7 @@ abstract class Relation
     {
         return collect($models)->map(function ($value) use ($key) {
             return $key ? $value->getAttribute($key) : $value->getKey();
-        })->values()->unique()->sort()->all();
+        })->values()->unique(null, true)->sort()->all();
     }
 
     /**
@@ -305,6 +305,22 @@ abstract class Relation
     public function relatedUpdatedAt()
     {
         return $this->related->getUpdatedAtColumn();
+    }
+
+    /**
+     * Get the name of the "where in" method for eager loading.
+     *
+     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  string  $key
+     * @return string
+     */
+    protected function whereInMethod(Model $model, $key)
+    {
+        return $model->getKeyName() === last(explode('.', $key))
+                    && $model->getIncrementing()
+                    && in_array($model->getKeyType(), ['int', 'integer'])
+                        ? 'whereIntegerInRaw'
+                        : 'whereIn';
     }
 
     /**
